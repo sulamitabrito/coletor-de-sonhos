@@ -26,6 +26,12 @@
     @keyframes twinkle { 0%,100% { opacity: .35 } 50% { opacity: .8 } }
     /* Orbes oníricos suaves */
     .orb { filter: blur(64px); opacity: .35; }
+
+    /* Aumenta contraste do texto e do placeholder nos campos claros */
+  input, textarea, select { color: #0f172a; }              /* slate-900 */
+  input::placeholder, textarea::placeholder { 
+    color: #64748b;  /* slate-500 */
+    opacity: 1;
   </style>
 </head>
 <body class="relative min-h-screen bg-gradient-to-b from-indigo-950 via-slate-950 to-black text-slate-100">
