@@ -55,6 +55,8 @@
     </section>
 
     <!-- EMBED do formulário (Google Forms). Observação: o Forms não tem dark-mode no embed; por isso mantemos esta "cartinha" clara para contraste e leitura confortável. -->
+   <!-- 
+     comentando o forms, para testar com google apps
     <section class="mb-8" id="form">
       <div class="rounded-2xl p-2 bg-white/90 border border-indigo-100 shadow">
         <div class="p-4">
@@ -66,6 +68,100 @@
           <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeQrO3nvn-01oOwDbCaZNOt3Ci4ZOuGwKJSJ_FvKcbMqt2EWg/viewform?embedded=true" width="640" height="832" frameborder="0" marginheight="0" marginwidth="0">Carregando…</iframe>
         
     </section>
+-->
+
+    <section class="mb-8" id="form">
+  <div class="rounded-2xl p-2 bg-white/90 border border-indigo-100 shadow">
+    <div class="p-4">
+      <h2 class="text-lg font-semibold text-slate-800">Conte seu sonho</h2>
+      <p class="text-slate-600 text-sm">Preencha o formulário abaixo. Se preferir, não informe dados pessoais. Você pode pedir a exclusão do relato depois.</p>
+    </div>
+
+    <div class="rounded-xl overflow-hidden p-4">
+      <!-- iframe oculto para receber a resposta do Apps Script sem sair da página -->
+      <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
+      <form id="dreamForm"
+            action="https://script.google.com/macros/s/AKfycbxVQwNea1Kd7ib3jA9hwN1D5MF11Hgnl4c62i-k86BCwDWmnvjLWhU8-srklTa75FA/exec"
+            method="POST"
+            target="hidden_iframe"
+            class="grid gap-4">
+
+        <!-- Honeypot anti-spam -->
+        <div class="hidden">
+          <label>Deixe em branco: <input type="text" name="website"></label>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-slate-700">Nome (opcional)</label>
+            <input type="text" name="nome" class="mt-1 w-full rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-400 p-3" placeholder="como você quer ser chamada" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-700">E-mail (opcional)</label>
+            <input type="email" name="email" class="mt-1 w-full rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-400 p-3" placeholder="para contato futuro" />
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-slate-700">Cidade/UF (opcional)</label>
+            <input type="text" name="cidade" class="mt-1 w-full rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-400 p-3" placeholder="ex.: São Paulo/SP" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-700">Data do sonho (opcional)</label>
+            <input type="date" name="data_sonho" class="mt-1 w-full rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-400 p-3" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-700">Faixa etária (opcional)</label>
+            <select name="faixa_etaria" class="mt-1 w-full rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-400 p-3">
+              <option value="">Prefiro não informar</option>
+              <option>18–24</option>
+              <option>25–34</option>
+              <option>35–44</option>
+              <option>45–54</option>
+              <option>55–64</option>
+              <option>65+</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Título do sonho (opcional)</label>
+          <input type="text" name="titulo" class="mt-1 w-full rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-400 p-3" placeholder="um nome curto para o sonho" />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Relato</label>
+          <textarea name="relato" rows="6" required class="mt-1 w-full rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-400 p-3" placeholder="Escreva com detalhes. O que aconteceu? Quem estava presente? Como você se sentiu?"></textarea>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-slate-700">Permite publicação anônima de trechos?</label>
+            <select name="permissao_publicacao" class="mt-1 w-full rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-400 p-3">
+              <option value="sim">Sim, pode publicar anonimizado</option>
+              <option value="nao">Não, mantenha apenas para análise</option>
+            </select>
+          </div>
+          <div class="flex items-center gap-3 mt-6">
+            <input type="checkbox" name="consentimento" required class="h-5 w-5 rounded border-slate-400">
+            <span class="text-sm text-slate-700">Li e concordo com o uso do meu relato conforme a política abaixo.</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button type="submit" id="submitBtn" class="mt-2 px-6 py-3 rounded-2xl bg-indigo-500 text-white font-semibold shadow hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-400">Enviar sonho ✨</button>
+          <span id="statusMsg" class="text-sm text-slate-600 hidden">Enviando…</span>
+        </div>
+      </form>
+
+      <div id="successBox" class="hidden mt-4 p-4 rounded-xl bg-emerald-100 border border-emerald-300 text-emerald-900 text-sm">
+        Obrigada! Seu sonho foi recebido. Você pode enviar outro quando quiser.
+      </div>
+    </div>
+  </div>
+</section>
 
     <section>
       <div class="rounded-2xl p-6 bg-slate-900/60 backdrop-blur border border-indigo-400/20">
