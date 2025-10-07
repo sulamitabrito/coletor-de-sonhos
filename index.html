@@ -212,5 +212,29 @@
     });
   })(jQuery);
   </script>
+<!-- script para envio dos sonhos qnd usamos o google apps -->
+  <script>
+  (function($){
+    $(function(){
+      let submitted = false;
+      $('#dreamForm').on('submit', function(){
+        submitted = true;
+        $('#submitBtn').prop('disabled', true);
+        $('#statusMsg').removeClass('hidden').text('Enviando…');
+      });
+      $('#hidden_iframe').on('load', function(){
+        if(submitted){
+          $('#statusMsg').addClass('hidden');
+          $('#submitBtn').prop('disabled', false);
+          $('#dreamForm')[0].reset();
+          $('#successBox').removeClass('hidden');
+          setTimeout(()=>$('#successBox').addClass('hidden'), 6000);
+          submitted = false;
+        }
+      });
+    });
+  })(jQuery);
+</script>
+
 </body>
 </html>
